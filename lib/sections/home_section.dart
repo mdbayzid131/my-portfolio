@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/home_page_controller.dart';
 import '../homePage/home_page.dart';
+import 'dart:html' as html;
+
+
 
 class HomeSection extends StatelessWidget {
    HomeSection({super.key});
   final _controller = Get.put(HomePageController());
+
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -50,7 +54,7 @@ class HomeSection extends StatelessWidget {
       isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         Text(
-          'Assalamu-Alaikum, i am',
+          'Assalamu-Alaikum, I am',
           style: TextStyle(
             color: Colors.grey.shade400,
             fontSize: isMobile ? 16 : 18,
@@ -86,8 +90,13 @@ class HomeSection extends StatelessWidget {
               label: const Text('Get In Touch'),
             ),
             OutlinedButton.icon(
-              onPressed: () =>
-                  launchUrl(Uri.parse('https://your-resume-link.com')),
+              onPressed: () {
+                const cvUrl = 'assets/cv/Bayzid Hosen Resume .pdf';
+                final anchor = html.AnchorElement(href: cvUrl)
+                  ..setAttribute('download', 'MD_BAYZID_HOSSEN_CV.pdf')
+                  ..click();
+              },
+
               icon: const Icon(Icons.download),
               label: const Text('Download CV'),
             ),
@@ -129,12 +138,12 @@ class HomeSection extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () =>
-                    launchUrl(Uri.parse('https://github.com')),
+                    launchUrl(Uri.parse('https://github.com/mdbayzid131')),
                 icon: SvgPicture.asset('assets/images/github-mark-white.svg',height: 23,width: 23,),
               ),
               IconButton(
                 onPressed: () =>
-                    launchUrl(Uri.parse('https://linkedin.com')),
+                    launchUrl(Uri.parse('https://www.linkedin.com/in/mdbayzid131/')),
                 icon: SvgPicture.asset('assets/images/icons8-linkedin-circled.svg',height: 25,width: 25,),
               ),
               // IconButton(

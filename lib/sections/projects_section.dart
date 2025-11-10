@@ -8,21 +8,25 @@ class ProjectsSection extends StatelessWidget {
 
   final List<Map<String, String>> projects = const [
     {
-      'title': 'E-Commerce App',
-      'desc': 'Full-featured Flutter e-commerce app with Firebase integration.',
-      'link': 'https://github.com/yourusername/ecommerce-app'
+      'title': 'E-Commerce App - Laza Shopping',
+      'desc':
+      'A modern Flutter e-commerce app featuring dynamic product browsing, cart management, and secure checkout. Built with REST API integration and a sleek, responsive design for a seamless shopping experience.',
+      'link': 'https://github.com/mdbayzid131/e_commerce'
     },
     {
       'title': 'Portfolio Website',
-      'desc': 'Personal portfolio built with Flutter Web.',
-      'link': 'https://github.com/yourusername/portfolio'
+      'desc':
+      'A visually stunning Flutter Web portfolio showcasing my skills, projects, and journey as a developer. Fully responsive with smooth animations and an elegant modern interface.',
+      'link': 'https://github.com/mdbayzid131/my-portfolio'
     },
     {
-      'title': 'Chat App',
-      'desc': 'Real-time chat app using Firestore and GetX.',
-      'link': 'https://github.com/yourusername/chat-app'
+      'title': 'Calculator',
+      'desc':
+      'A clean and minimal calculator app built with Flutter, featuring smooth UI and all essential arithmetic operations for daily use.',
+      'link': 'https://github.com/mdbayzid131/Calculator'
     },
   ];
+
 
   @override
   Widget build(BuildContext context) {
