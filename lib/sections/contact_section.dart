@@ -14,33 +14,26 @@ class ContactFooter extends StatefulWidget {
 class _ContactFooterState extends State<ContactFooter> {
   final _controller = Get.put(HomePageController());
 
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _messageController = TextEditingController();
-
-  bool _isButtonEnabled = false;
-
   @override
   void initState() {
     super.initState();
-    _nameController.addListener(_updateButtonState);
-    _emailController.addListener(_updateButtonState);
-    _messageController.addListener(_updateButtonState);
+    _controller.nameController.addListener(_updateButtonState);
+    _controller.emailController.addListener(_updateButtonState);
+    _controller.messageController.addListener(_updateButtonState);
   }
 
   void _updateButtonState() {
-    setState(() {
-      _isButtonEnabled = _nameController.text.isNotEmpty &&
-          _emailController.text.isNotEmpty &&
-          _messageController.text.isNotEmpty;
-    });
+    _controller.isButtonEnabled.value =
+        _controller.nameController.text.isNotEmpty &&
+        _controller.emailController.text.isNotEmpty &&
+        _controller.messageController.text.isNotEmpty;
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _messageController.dispose();
+    _controller.nameController.dispose();
+    _controller.emailController.dispose();
+    _controller.messageController.dispose();
     super.dispose();
   }
 
@@ -82,7 +75,9 @@ class _ContactFooterState extends State<ContactFooter> {
                       children: [
                         _buildContactInfo(),
                         const SizedBox(height: 50),
-                        _buildContactForm(maxWidth: constraints.maxWidth * 0.95),
+                        _buildContactForm(
+                          maxWidth: constraints.maxWidth * 0.95,
+                        ),
                       ],
                     )
                   else
@@ -105,10 +100,19 @@ class _ContactFooterState extends State<ContactFooter> {
                     alignment: WrapAlignment.center,
                     spacing: 30,
                     runSpacing: 16,
-                    children: const [
-                      _FooterStat(label: '1+', sub: 'Years Experience'),
-                      _FooterStat(label: '10+', sub: 'Projects Completed'),
-                      _FooterStat(label: '24h', sub: 'Response Time'),
+                    children: [
+                      _FooterStat(
+                        label: _controller.experienceYear.value,
+                        sub: 'Years Experience',
+                      ),
+                      _FooterStat(
+                        label: _controller.projectsCompleted.value,
+                        sub: 'Projects Completed',
+                      ),
+                      _FooterStat(
+                        label: _controller.responseTime.value,
+                        sub: 'Response Time',
+                      ),
                     ],
                   ),
 
@@ -128,11 +132,15 @@ class _ContactFooterState extends State<ContactFooter> {
                           alignment: WrapAlignment.center,
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                scrollTo(_controller.homeKey);
+                              },
                               child: const Text('Privacy Policy'),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                scrollTo(_controller.homeKey);
+                              },
                               child: const Text('Terms of Service'),
                             ),
                           ],
@@ -181,7 +189,7 @@ class _ContactFooterState extends State<ContactFooter> {
   Widget _buildContactInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
           'Get In Touch',
           style: TextStyle(
@@ -199,15 +207,17 @@ class _ContactFooterState extends State<ContactFooter> {
         ListTile(
           leading: Icon(Icons.email_outlined, color: Colors.white),
           title: Text("Email", style: TextStyle(color: Colors.white)),
-          subtitle: Text("mdbayazid131@gmail.com",
-              style: TextStyle(color: Colors.white70)),
+          subtitle: Text(
+            _controller.email.value,
+            style: TextStyle(color: Colors.white70),
+          ),
         ),
         SizedBox(height: 6),
         ListTile(
           leading: Icon(Icons.phone_outlined, color: Colors.white),
           title: Text("Phone", style: TextStyle(color: Colors.white)),
           subtitle: Text(
-            "+8801893032348",
+            _controller.phone.value,
             style: TextStyle(color: Colors.white70),
           ),
         ),
@@ -215,8 +225,10 @@ class _ContactFooterState extends State<ContactFooter> {
         ListTile(
           leading: Icon(Icons.location_on_outlined, color: Colors.white),
           title: Text("Address", style: TextStyle(color: Colors.white)),
-          subtitle: Text("Faridpur, Bangladesh",
-              style: TextStyle(color: Colors.white70)),
+          subtitle: Text(
+            _controller.address.value,
+            style: TextStyle(color: Colors.white70),
+          ),
         ),
         SizedBox(height: 16),
       ],
@@ -235,41 +247,48 @@ class _ContactFooterState extends State<ContactFooter> {
       ),
       child: Column(
         children: [
-          _customTextField('Your Name', controller: _nameController),
+          _customTextField('Your Name', controller: _controller.nameController),
           const SizedBox(height: 8),
-          _customTextField('Your Email', controller: _emailController),
+          _customTextField(
+            'Your Email',
+            controller: _controller.emailController,
+          ),
           const SizedBox(height: 8),
           _customTextField(
             'Tell me about your project...',
             minLines: 3,
             maxLines: 4,
-            controller: _messageController,
+            controller: _controller.messageController,
           ),
           const SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: _isButtonEnabled
-                  ? () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'This is a demo form. Use the email link to contact.',
-                    ),
+            child: Obx(
+              () => ElevatedButton.icon(
+                onPressed: _controller.isButtonEnabled.value
+                    ? () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'This is a demo form. Use the email link to contact.',
+                            ),
+                          ),
+                        );
+                      }
+                    : null,
+                icon: const Icon(Icons.send),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(width: 1, color: Colors.black),
                   ),
-                );
-              }
-                  : null,
-              icon: const Icon(Icons.send),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(width: 1,color: Colors.black)
+                  disabledBackgroundColor: const Color(
+                    0xFF586067,
+                  ).withOpacity(0.5),
+                  disabledForegroundColor: Colors.white24,
                 ),
-                disabledBackgroundColor: const Color(0xFF586067).withOpacity(0.5),
-                disabledForegroundColor: Colors.white24,
+                label: const Text('Send Message'),
               ),
-              label: const Text('Send Message'),
             ),
           ),
           const SizedBox(height: 8),
@@ -285,11 +304,11 @@ class _ContactFooterState extends State<ContactFooter> {
 
   /// 🎨 Custom TextField Widget
   Widget _customTextField(
-      String hint, {
-        int minLines = 1,
-        int maxLines = 1,
-        required TextEditingController controller,
-      }) {
+    String hint, {
+    int minLines = 1,
+    int maxLines = 1,
+    required TextEditingController controller,
+  }) {
     return TextField(
       controller: controller,
       minLines: minLines,

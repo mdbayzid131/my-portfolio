@@ -71,8 +71,7 @@ class HomeSection extends StatelessWidget {
           ),
         ).animate().fadeIn(duration: 700.ms).slideX(begin: -0.1),
         const SizedBox(height: 16),
-        const Text(
-          'Crafting exceptional mobile experiences with Flutter. Passionate about clean code, modern design, and innovative solutions that make a difference.',
+         Text(_controller.bio.value,
           style: TextStyle(fontSize: 16, color: Colors.white70, height: 1.5),
           textAlign: TextAlign.start,
         ),
@@ -91,10 +90,7 @@ class HomeSection extends StatelessWidget {
             ),
             OutlinedButton.icon(
               onPressed: () {
-                const cvUrl = 'assets/cv/Bayzid Hosen Resume .pdf';
-                final anchor = html.AnchorElement(href: cvUrl)
-                  ..setAttribute('download', 'MD_BAYZID_HOSSEN_CV.pdf')
-                  ..click();
+                html.window.open(_controller.cvUrl, "_blank");
               },
 
               icon: const Icon(Icons.download),
@@ -118,7 +114,7 @@ class HomeSection extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: isMobile ? 60 : 80,
-            backgroundImage: const AssetImage('assets/images/my_image_crop.jpg'),
+            backgroundImage: AssetImage(_controller.myImage),
           ),
           const SizedBox(height: 14),
           Text(
@@ -138,12 +134,12 @@ class HomeSection extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () =>
-                    launchUrl(Uri.parse('https://github.com/mdbayzid131')),
+                    launchUrl(Uri.parse(_controller.gitHubLink)),
                 icon: SvgPicture.asset('assets/images/github-mark-white.svg',height: 23,width: 23,),
               ),
               IconButton(
                 onPressed: () =>
-                    launchUrl(Uri.parse('https://www.linkedin.com/in/mdbayzid131/')),
+                    launchUrl(Uri.parse(_controller.linkedInLink)),
                 icon: SvgPicture.asset('assets/images/icons8-linkedin-circled.svg',height: 25,width: 25,),
               ),
               // IconButton(

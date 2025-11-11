@@ -51,7 +51,7 @@ final _controller = Get.put(HomePageController());
                   children: [
                     // Logo / Name
                     Text(
-                      'Bayzid',
+                      'BAYZID',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
